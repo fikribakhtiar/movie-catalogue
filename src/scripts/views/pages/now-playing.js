@@ -1,15 +1,22 @@
 import TheMovieDbSource from '../../data/themoviedb-source';
+import { createMovieItemTemplate } from '../templates/template-creator';
 
 const NowPlaying = {
   async render() {
     return `
-      <h2>Now Playing Page</h2>
-          `;
+      <div class="content">
+        <h2 class="class__heading">Now Playing in Cinema</h2>
+        <div id="movies" class="movies"></div>
+      </div>
+    `;
   },
 
   async afterRender() {
-    const movie = await TheMovieDbSource.nowPlayingMovies();
-    console.log(movie);
+    const movies = await TheMovieDbSource.nowPlayingMovies();
+    const moviesContainer = document.querySelector('#movies');
+    movies.forEach((movie) => {
+      moviesContainer.innerHTML += createMovieItemTemplate(movie);
+    });
   },
 };
 
